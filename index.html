@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Portfolio of Joseph Kimani, a web developer and Information Science student at the Technical University of Kenya.">
+        <title>My Portfolio</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+        <script src="assets/js/script.js" defer></script>
+    </head>
+    <body>
+        <header>
+            
+                <h1 class="head_title">My Portfolio</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#about">About Me</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            <div class="container_center">
+                <button id="theme-toggle">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <p class="greeting"></p>
+                <p class="weather">Fetching weather...</p>
+            </div>
+        </header>
+        <main>
+            <section id="about">
+                <h2>About Me</h2>
+                <p>Hello! I'm a web developer with a passion for creating beautiful and functional websites. I am a student at the Technical University of Kenya, pursuing BSC Information Science. I am also a PLP Feb 2025 Student.</p>
+                <h4>Certificates</h4>
+                <ul>
+                    <li><a href="https://www.credly.com/badges/e29b420c-314d-41bf-a6c2-b0e7374b98a1/linked_in_profile">Artificial Intelligence Fundamentals</a></li>
+                    <li><a href="https://www.coursera.org/account/accomplishments/records/6CKSASMGQDUR">Python for Data Science, AI & Development</a></li>
+                    <li>Content Creation</li>
+                </ul>
+                <h4>Download my CV here</h4>
+                <p><a href="cv.pdf" download>Download CV</a></p>
+            </section>
+           
+            <section id="skills">
+                <h2>Skills</h2>
+                <ul>
+                    <li>HTML5</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                    <li>Python</li>
+                    <li>C</li>
+                </ul>
+            </section>
+            <section id="my-journey">
+                <h2>My Journey</h2>
+                <p>From learning my first "Hello World" in Python to participating in hackathons, my tech journey has been exciting. Here are some key milestones:</p>
+                <ul>                    
+                    <li><strong>2021:</strong> Started my degree in Information Science.</li>
+                    <li><strong>2023:</strong> Participated in the Power Hacks Inter-University Hackathon.</li>
+                    <li><strong>2025:</strong> Building this portfolio for a hackathon!</li>
+                </ul>
+            </section>
+            <section id="timeline">
+                <h2>My Tech Timeline</h2>
+                <dl class="timeline-container">                    
+                    <dt class="timeline-date">2021</dt>
+                    <dd class="timeline-content">Began my Information Science degree.</dd>
+                    <br>
+                    <dt class="timeline-date">2023</dt>
+                    <dd class="timeline-content">Competed in Power Hacks Inter-University Hackathon.</dd>
+                    <br>
+                    <dt class="timeline-date">2025</dt>
+                    <dd class="timeline-content">Developing a portfolio for the PLP Academy Hackathon.</dd>
+                </dl>
+            </section>
+            <section id="contact">
+                <h2>Contact</h2>
+                <form action="mailto:kimnyoski145@gmail.com" method="POST" enctype="text/plain">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+            <section id="social-media">
+                <h2>Connect with Me</h2>
+                <ul>
+                    <li><a href="https://www.linkedin.com/in/joseph-kimani-kim145/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a></li>
+                    <li><a href="https://github.com/Kimani145" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">GitHub</a></li>
+                    <li><a href="https://x.com/Kim25031052kim" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile">Twitter</a></li>
+                </ul>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2025 My Portfolio. All rights reserved.</p>
+        </footer>
+    </body>
+</html>
