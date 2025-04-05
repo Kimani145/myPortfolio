@@ -237,3 +237,19 @@ dd {
     color: var(--text-dark); /* Ensure text is visible */
     border: 1px solid #444; /* Optional: Add a border for better contrast */
 }
+
+.download-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid var(--accent-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  
+  .download-link:hover {
+    background: var(--accent-color);
+    color: var(--bg); 
+  }
+  
