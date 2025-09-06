@@ -42,9 +42,9 @@ export function Projects() {
 
           <!-- Project Placeholder 3 portfolio-->
           <div class="project-card border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden hover:shadow-lg transition-transform hover:-translate-y-2">
-            <a href="https://josephkimani.dev" target="_blank" rel="noopener noreferrer" class="block">
+            <a href="https://josephkimani.netlify.app" target="_blank" rel="noopener noreferrer" class="block">
               <div class="h-48 bg-gradient-to-r from-pink-100 to-yellow-100 dark:from-pink-900/50 dark:to-yellow-900/50 flex items-center justify-center overflow-hidden">
-                <img src="/images/portfolio-preview.png" alt="Portfolio preview" class="w-full h-full object-cover">
+                <img src="/images/portfolio.png" alt="Portfolio preview" class="w-full h-full object-cover">
               </div>
             </a>
             <div class="p-6">

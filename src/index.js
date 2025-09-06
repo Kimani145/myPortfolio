@@ -5,6 +5,8 @@ import { Skills } from './components/skills.js';
 import { Projects } from './components/projects.js';
 import { Contact } from './components/contact.js';
 import { Footer } from './components/footer.js';
+import { Certifications } from './components/certifications.js';
+import './styles/certifications.css';
 //import './styles/animations.css';
 //import './styles/tailwind.css';  // removed when using CDN
 
@@ -57,6 +59,7 @@ document.body.innerHTML = `
   ${Hero()}
   ${Skills()}
   ${Projects()}
+  ${Certifications()}
   ${Contact()}
   ${Footer()}
 `;
