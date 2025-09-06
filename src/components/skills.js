@@ -117,6 +117,28 @@ export function Skills() {
               <div class="h-full bg-orange-600 rounded-full" style="width: 65%"></div>
             </div>
           </div>
+
+          <!-- Skill Card 11 Firebase-->
+          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <div class="text-4xl text-center mb-4 text-yellow-600">
+              <i class="fas fa-fire"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center">Firebase</h3>
+            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+              <div class="h-full bg-yellow-600 rounded-full" style="width: 55%"></div>
+            </div>
+          </div>
+
+          <!-- Skill Card 12 AI-->
+          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <div class="text-4xl text-center mb-4 text-red-500">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center">AI & ML</h3>
+            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+              <div class="h-full bg-red-500 rounded-full" style="width: 50%"></div>
+            </div>
+          </div>
         <!-- Add more skills following the same pattern -->
         </div>
       </div>

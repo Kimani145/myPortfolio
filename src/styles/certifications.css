@@ -1,0 +1,7 @@
+.certification-card {
+  transition: transform 0.3s ease-in-out;
+}
+
+.certification-card:hover {
+  transform: translateY(-5px);
+}
