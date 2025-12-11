@@ -37,7 +37,26 @@ export function Certifications() {
             <p class="text-center text-gray-600 dark:text-gray-400 mt-2"><a href = "https://kenya.dotrust.org/" target="_blank" rel="noopener noreferrer">Issued by <br> Digital Opportunity Trust (DOT) Kenya
             </a></p>
           </div>
-        </div>
+
+          <!-- Certification Card 4 -->
+          <div class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <img src="/images/PLP-Fullstack.png" alt="Certificate Image" class="mx-auto mb-4"></img>
+            <div class="text-4xl text-center mb-4 text-orange-500">
+              <i class="fas fa-award"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center">Full Stack Web Development</h3>
+            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by <br> Power Learn Project</p>  
+          </div>
+          
+          <!-- Certification Card 5 -->
+          <div class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <img src="/images/Network-technician.png" alt="Certificate Image" class="mx-auto mb-4"></img>
+            <div class="text-4xl text-center mb-4 text-green-500">
+              <i class="fas fa-award"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-center">Networking Essentials</h3>
+            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by <br> ICT Authority <br> through <br> Cisco Networking Academy</p> 
+          </div>
       </div>
     </section>
   `;
