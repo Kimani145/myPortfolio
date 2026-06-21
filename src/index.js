@@ -1,75 +1,144 @@
-import { Header } from './components/header.js';
-import { Hero } from './components/hero.js';
-import { initHero } from './components/hero.client.js'; // <-- new import
-import { Skills } from './components/skills.js';
-import { Projects } from './components/projects.js';
-import { Contact } from './components/contact.js';
-import { Footer } from './components/footer.js';
+/**
+ * index.js — v2 entry point
+ * Joseph Kimani Nyoike Portfolio
+ */
+
+import { Header }         from './components/header.js';
+import { Hero }           from './components/hero.js';
+import { initHero }       from './components/hero.client.js';
+import { Skills }         from './components/skills.js';
+import { Projects }       from './components/projects.js';
 import { Certifications } from './components/certifications.js';
-import './styles/certifications.css';
-//import './styles/animations.css';
-//import './styles/tailwind.css';  // removed when using CDN
+import { Contact }        from './components/contact.js';
+import { Footer }         from './components/footer.js';
 
-// 1. Initialize EmailJS
-const initEmailJS = () => {
-  window.emailjs.init('IsT5U0mRNPdYjZ3hL');
-};
+import './styles/global.css';
 
-// 2. Dark Mode Toggle Logic
-const initTheme = () => {
-  const themeToggle = document.getElementById('theme-toggle');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && prefersDark)) {
-    document.documentElement.classList.add('dark');
-  }
-  
-  themeToggle?.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
-    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-  });
-};
-
-// 3. Contact Form Handler
-const setupContactForm = () => {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    window.emailjs.sendForm(
-      'service_20mgute',
-      'template_faun4li',
-      form
-    )
-    .then(() => {
-      alert('Message sent!');
-      form.reset();
-    })
-    .catch((error) => {
-      alert(`Error: ${error.text}`);
-    });
-  });
-};
-
-// 5. Render Entire App
-document.body.innerHTML = `
+// ─── 1. Render DOM ───────────────────────────────────────────
+document.getElementById('app').innerHTML = `
   ${Header()}
-  ${Hero()}
-  ${Skills()}
-  ${Projects()}
-  ${Certifications()}
-  ${Contact()}
+  <main id="main-content">
+    ${Hero()}
+    ${Skills()}
+    ${Projects()}
+    ${Certifications()}
+    ${Contact()}
+  </main>
   ${Footer()}
 `;
 
-// Initialize all functionality
+// ─── 2. Dark Mode ────────────────────────────────────────────
+function initTheme() {
+  const root     = document.documentElement;
+  const toggle   = document.getElementById('theme-toggle');
+  const icon     = document.getElementById('theme-icon');
+
+  // Determine initial theme
+  const stored = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = stored === 'dark' || (!stored && prefersDark);
+
+  function applyTheme(dark) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (icon) {
+      icon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+
+  applyTheme(isDark);
+
+  toggle?.addEventListener('click', () => {
+    const currentlyDark = root.getAttribute('data-theme') === 'dark';
+    applyTheme(!currentlyDark);
+  });
+}
+
+// ─── 3. EmailJS init ─────────────────────────────────────────
+function initEmailJS() {
+  if (window.emailjs) {
+    window.emailjs.init('IsT5U0mRNPdYjZ3hL');
+  }
+}
+
+// ─── 4. Contact Form (single listener — fixes double-submit) ─
+function setupContactForm() {
+  const form      = document.getElementById('contact-form');
+  const statusEl  = document.getElementById('form-status');
+  const submitBtn = document.getElementById('form-submit-btn');
+  if (!form) return;
+
+  let sending = false;  // guard against double-submit
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (sending) return;
+    sending = true;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+    }
+
+    if (statusEl) {
+      statusEl.className = 'form-status';
+      statusEl.textContent = '';
+    }
+
+    try {
+      await window.emailjs.sendForm(
+        'service_20mgute',
+        'template_faun4li',
+        form
+      );
+
+      if (statusEl) {
+        statusEl.textContent = '✓ Message sent! I\'ll get back to you shortly.';
+        statusEl.className   = 'form-status success';
+      }
+      form.reset();
+    } catch (err) {
+      console.error('[contact form]', err);
+      if (statusEl) {
+        statusEl.textContent = 'Failed to send. Please email me directly at kimnyoski145@gmail.com';
+        statusEl.className   = 'form-status error';
+      }
+    } finally {
+      sending = false;
+      if (submitBtn) {
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    }
+  });
+}
+
+// ─── 5. Intersection Observer — fade-up ──────────────────────
+function initScrollAnimations() {
+  const fadeEls = document.querySelectorAll('.fade-up');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  fadeEls.forEach(el => observer.observe(el));
+}
+
+// ─── 6. Boot ─────────────────────────────────────────────────
+// Use DOMContentLoaded (body.innerHTML is sync so DOM is ready immediately,
+// but waiting guards against any edge-case race with font loading)
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
-  setupContactForm();
   initEmailJS();
-  initHero(); // initialize hero behaviors that were moved out of innerHTML
+  setupContactForm();
+  initHero();
+  initScrollAnimations();
 });
-
-

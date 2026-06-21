@@ -1,0 +1,169 @@
+/* ============================================================
+   SKILLS — v3 (pill grid, no progress bars)
+   ============================================================ */
+.skills {
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Category block */
+.skills__category {
+  margin-bottom: var(--sp-4);
+}
+
+.skills__category:last-child {
+  margin-bottom: 0;
+}
+
+.skills__category-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.75;
+  margin-bottom: var(--sp-2);
+}
+
+/* Pill container */
+.skills__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Base pill */
+.skill-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: 100px;  /* fully rounded pill */
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.skill-pill:hover {
+  border-color: var(--border-strong);
+  background: var(--panel);
+}
+
+/* Pills that have a graph usage badge */
+.skill-pill--linked {
+  border-color: rgba(45,91,255,0.2);
+  background: rgba(45,91,255,0.04);
+}
+
+[data-theme="dark"] .skill-pill--linked {
+  border-color: rgba(110,147,255,0.2);
+  background: rgba(110,147,255,0.06);
+}
+
+.skill-pill--linked:hover {
+  border-color: var(--accent);
+  background: rgba(45,91,255,0.08);
+}
+
+/* Usage badge (→ used in N projects) */
+.skill-pill__usage {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0.8;
+  letter-spacing: 0.02em;
+  border-left: 1px solid rgba(45,91,255,0.25);
+  padding-left: 6px;
+  margin-left: 2px;
+  cursor: default;
+}
+
+[data-theme="dark"] .skill-pill__usage {
+  border-left-color: rgba(110,147,255,0.3);
+}
+
+/* Graph note below the skills board */
+.skills__graph-note {
+  font-size: 0.8rem;
+  color: var(--ink);
+  opacity: 0.5;
+  margin-top: var(--sp-4);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   EDUCATION
+   ============================================================ */
+.education {
+  background: var(--bg);
+}
+
+.edu-card {
+  display: flex;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  transition: border-color 0.2s;
+}
+
+.edu-card:hover {
+  border-color: var(--border-strong);
+}
+
+.edu-card__icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(45,91,255,0.08);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.edu-card__body {}
+
+.edu-card__institution {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.edu-card__degree {
+  font-size: 0.875rem;
+  color: var(--ink);
+  opacity: 0.65;
+  margin-bottom: 8px;
+}
+
+.edu-card__meta {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.edu-card__year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+  opacity: 0.45;
+}
+
+@media (max-width: 480px) {
+  .edu-card { flex-direction: column; }
+  .skill-pill { font-size: 0.75rem; }
+  .skill-pill__usage { display: none; } /* too narrow for inline badge on very small screens */
+}

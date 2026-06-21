@@ -1,62 +1,87 @@
+import '../styles/sections.css';
+
+// All five entries now link to verified Credly transcript URLs.
+// Order: newest-first per Credly transcript.
+const CERTS = [
+  {
+    id:        'ibm-python',
+    name:      'Python for Data Science, AI & Development',
+    issuer:    'IBM',
+    iconClass: 'cert-row__icon--ibm',
+    icon:      'fas fa-database',
+    url:       'https://www.credly.com/badges/0569b1fe-7925-4771-bc32-cdd7ffb64e00/academic_transcript',
+    urlLabel:  'Verify on Credly ↗'
+  },
+  {
+    id:        'ibm-ai',
+    name:      'Artificial Intelligence Fundamentals',
+    issuer:    'IBM SkillsBuild',
+    iconClass: 'cert-row__icon--ibm',
+    icon:      'fas fa-brain',
+    url:       'https://www.credly.com/badges/e29b420c-314d-41bf-a6c2-b0e7374b98a1/academic_transcript',
+    urlLabel:  'Verify on Credly ↗'
+  },
+  {
+    id:        'cisco-network-technician',
+    name:      'Network Technician Career Path',
+    issuer:    'Cisco Networking Academy',
+    iconClass: 'cert-row__icon--cisco',
+    icon:      'fas fa-network-wired',
+    url:       'https://www.credly.com/badges/725dcf4c-1ec5-41f4-8946-fa7f570465f3/academic_transcript',
+    urlLabel:  'Verify on Credly ↗'
+  },
+  {
+    id:        'cisco-learnathon',
+    name:      'Networking Academy Learn-A-Thon',
+    issuer:    'Cisco Networking Academy',
+    iconClass: 'cert-row__icon--cisco',
+    icon:      'fas fa-trophy',
+    url:       'https://www.credly.com/badges/8933d3c7-c1a2-4e24-bdc8-6bd8c8fb29f6/academic_transcript',
+    urlLabel:  'Verify on Credly ↗'
+  },
+  {
+    id:        'cisco-learnathon-2026',
+    name:      'Cisco Networking Academy Learn-A-Thon 2026',
+    issuer:    'Cisco Networking Academy',
+    iconClass: 'cert-row__icon--cisco',
+    icon:      'fas fa-medal',
+    url:       'https://www.credly.com/badges/ad669e1d-b447-449b-8f52-3cacf81cf00b/academic_transcript',
+    urlLabel:  'Verify on Credly ↗'
+  }
+];
+
+function renderCertRow(c) {
+  // All rows are now links — no fallback div needed
+  return `
+    <a
+      href="${c.url}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="cert-row"
+      id="${c.id}"
+      aria-label="${c.name} — ${c.issuer}"
+    >
+      <div class="cert-row__icon ${c.iconClass}" aria-hidden="true">
+        <i class="${c.icon}"></i>
+      </div>
+      <div class="cert-row__body">
+        <div class="cert-row__name">${c.name}</div>
+        <div class="cert-row__issuer">${c.issuer}</div>
+      </div>
+      <div class="cert-row__action">${c.urlLabel}</div>
+    </a>
+  `;
+}
+
 export function Certifications() {
   return `
-    <section id="certifications" class="py-20 px-4 bg-white dark:bg-gray-900">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-4xl font-bold text-center mb-12 section-title">
-          My <span class="text-purple-600 dark:text-purple-400">Certifications</span>
-        </h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Certification Card 1 -->
-          <a href="https://www.credly.com/badges/e29b420c-314d-41bf-a6c2-b0e7374b98a1/linked_in_profile" target="_blank" rel="noopener noreferrer" class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <img src="/images/AI-certificate.png" alt="Certificate Image" class="mx-auto mb-4">
-            <div class="text-4xl text-center mb-4 text-blue-500">
-              <i class="fas fa-award"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Artificial Intelligence Fundamentals</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by IBM SkillsBuild</p>
-          </a>
-
-          <!-- Certification Card 2 -->
-          <a href="https://www.coursera.org/account/accomplishments/verify/6CKSASMGQDUR" target="_blank" rel="noopener noreferrer" class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <img src="/images/Python-certificate.png" alt="Certificate Image" class="mx-auto mb-4">
-            <div class="text-4xl text-center mb-4 text-green-500">
-              <i class="fas fa-award"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Python for Data Science, AI & Development</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by IBM</p>
-          </a>
-
-          <!-- Certification Card 3 -->
-          <div class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <img src="/images/content-certification.jpg" alt="Certificate Image" class="mx-auto mb-4">
-            <div class="text-4xl text-center mb-4 text-purple-500">
-              <i class="fas fa-award"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Content Creation Class</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2"><a href = "https://kenya.dotrust.org/" target="_blank" rel="noopener noreferrer">Issued by <br> Digital Opportunity Trust (DOT) Kenya
-            </a></p>
-          </div>
-
-          <!-- Certification Card 4 -->
-          <div class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <img src="/images/PLP-Fullstack.png" alt="Certificate Image" class="mx-auto mb-4"></img>
-            <div class="text-4xl text-center mb-4 text-orange-500">
-              <i class="fas fa-award"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Full Stack Web Development</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by <br> Power Learn Project</p>  
-          </div>
-          
-          <!-- Certification Card 5 -->
-          <div class="certification-card bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <img src="/images/Network-technician.png" alt="Certificate Image" class="mx-auto mb-4"></img>
-            <div class="text-4xl text-center mb-4 text-green-500">
-              <i class="fas fa-award"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Networking Essentials</h3>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2">Issued by <br> ICT Authority <br> through <br> Cisco Networking Academy</p> 
-          </div>
+    <section id="certifications" class="section certifications" aria-labelledby="certs-heading">
+      <div class="section-inner">
+        <p class="section-label">Credentials</p>
+        <h2 class="section-title" id="certs-heading">Certifications</h2>
+        <div class="cert-ledger fade-up" role="list" aria-label="Certifications list">
+          ${CERTS.map(renderCertRow).join('')}
+        </div>
       </div>
     </section>
   `;

@@ -1,145 +1,125 @@
+import '../styles/skills.css';
+
+// ============================================================
+// SINGLE SOURCE OF TRUTH — derived from the same graph data
+// as the hero Build Graph. Any skill that is a graph node gets
+// a "→ used in N projects" badge computed from the edge list.
+// Skills with no graph node get a plain pill. No bars. No %.
+// ============================================================
+
+/**
+ * Graph edge map: which infra/tech nodes connect to which projects.
+ * Must stay in sync with hero.js GRAPH.edges.
+ * solid = in use, dashed = planned (both count as "used in").
+ */
+const GRAPH_USAGE = {
+  // infra node id → list of project names it connects to
+  'react':     ['Roomie Finder', 'This Portfolio'],
+  'firestore': ['Roomie Finder', 'Knot Just Braids'],   // GlowBook→Firestore is dashed (planned) — count it
+  'firebase':  ['Fitness Tracker Pro', 'Knot Just Braids'],
+  'supabase':  ['YSC'],
+  'drf':       ['YSC'],
+};
+
+// Map display skill name → graph node id (if any)
+const SKILL_TO_NODE = {
+  'React':         'react',
+  'Firestore':     'firestore',
+  'Firebase':      'firebase',
+  'Supabase':      'supabase',
+  'Django / DRF':  'drf',
+};
+
+const CATEGORIES = [
+  {
+    key:   'languages',
+    label: 'Languages',
+    skills: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'HTML / CSS']
+  },
+  {
+    key:   'frameworks',
+    label: 'Frameworks & Tools',
+    skills: ['React', 'Django / DRF', 'Vite', 'Git', 'REST APIs', 'Firebase', 'Firestore', 'Supabase', 'Celery / Redis']
+  },
+  {
+    key:   'data',
+    label: 'Data & AI',
+    skills: ['Machine Learning', 'NLP', 'AI Ethics', 'Data Analysis', 'IBM AI Fundamentals']
+  },
+  {
+    key:   'networking',
+    label: 'Networking',
+    skills: ['Network Design', 'Cisco IOS', 'IP Addressing', 'IPv4 / IPv6', 'Switches & Routers', 'Help Desk Support']
+  },
+  {
+    key:   'practice',
+    label: 'Practice',
+    skills: ['System Architecture', 'RBAC Design', 'Documentation', 'Technical Writing', 'Code Review', 'Debugging']
+  }
+];
+
+function usageBadge(skillName) {
+  const nodeId = SKILL_TO_NODE[skillName];
+  if (!nodeId) return '';
+  const projects = GRAPH_USAGE[nodeId];
+  if (!projects || projects.length === 0) return '';
+  const count = projects.length;
+  const label = count === 1
+    ? `→ used in 1 project`
+    : `→ used in ${count} projects`;
+  return `<span class="skill-pill__usage" title="${projects.join(', ')}">${label}</span>`;
+}
+
+function renderPill(skillName) {
+  const badge = usageBadge(skillName);
+  const hasUsage = badge !== '';
+  return `
+    <span class="skill-pill${hasUsage ? ' skill-pill--linked' : ''}">
+      ${skillName}${badge}
+    </span>
+  `;
+}
+
 export function Skills() {
   return `
-    <section id="skills" class="py-20 px-4 bg-gray-50 dark:bg-gray-900">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-4xl font-bold text-center mb-12 section-title">
-          My <span class="text-purple-600 dark:text-purple-400">Skills</span>
-        </h2>
-        
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <!-- Skill Card 1 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-blue-500">
-              <i class="fab fa-html5"></i>
+    <section id="skills" class="section skills" aria-labelledby="skills-heading">
+      <div class="section-inner">
+        <p class="section-label">Skill Set</p>
+        <h2 class="section-title" id="skills-heading">Technical Stack</h2>
+
+        <div id="skills-board">
+          ${CATEGORIES.map(cat => `
+            <div class="skills__category">
+              <p class="skills__category-label">${cat.label}</p>
+              <div class="skills__pills">
+                ${cat.skills.map(renderPill).join('')}
+              </div>
             </div>
-            <h3 class="text-xl font-semibold text-center">HTML5</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-blue-500 rounded-full" style="width: 90%"></div>
+          `).join('')}
+        </div>
+
+        <p class="skills__graph-note">
+          <span class="font-mono" style="color:var(--accent); font-size:0.7rem;">→ used in N projects</span>
+          badges are derived from the Build Graph above — not separately asserted.
+        </p>
+      </div>
+    </section>
+
+    <!-- Education — same token system -->
+    <section id="education" class="section education" aria-labelledby="education-heading">
+      <div class="section-inner">
+        <p class="section-label">Background</p>
+        <h2 class="section-title" id="education-heading">Education</h2>
+        <div class="edu-card fade-up">
+          <div class="edu-card__icon" aria-hidden="true"><i class="fas fa-graduation-cap"></i></div>
+          <div class="edu-card__body">
+            <div class="edu-card__institution">Technical University of Kenya (TUK)</div>
+            <div class="edu-card__degree">Bachelor of Science — Information Science</div>
+            <div class="edu-card__meta">
+              <span class="edu-card__year">2022 – Present</span>
+              <span class="tech-tag">Nairobi, Kenya</span>
             </div>
           </div>
-
-          <!-- Skill Card 2 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-blue-400">
-              <i class="fab fa-css3-alt"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">CSS3</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-blue-400 rounded-full" style="width: 85%"></div>
-            </div>
-          </div>
-
-
-          <!-- Skill Card 3 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-yellow-500">
-              <i class="fab fa-js-square"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">JavaScript</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-yellow-500 rounded-full" style="width: 80%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 4 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-green-500">
-              <i class="fab fa-python"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Python</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-green-500 rounded-full" style="width: 75%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 5 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-purple-500">
-              <i class="fab fa-react"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">React</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-purple-500 rounded-full" style="width: 70%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 6 -->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow"> 
-          <div class="text-4xl text-center mb-4 text-blue-600">
-              <i class="fab fa-js-square"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">TypeScript</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-blue-600 rounded-full" style="width: 65%"></div>
-            </div>
-          </div> 
-
-          <!-- Skill Card 7 Git-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-orange-500"> 
-              <i class="fab fa-git-alt"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Git</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-orange-500 rounded-full" style="width: 80%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 8 MySQL-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-blue-700">
-              <i class="fas fa-database"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">MySQL</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-blue-700 rounded-full" style="width: 70%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 9 MongoDB-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-green-600">
-              <i class="fas fa-leaf"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">MongoDB</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-green-600 rounded-full" style="width: 60%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 10 Java-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-orange-600">
-              <i class="fab fa-java"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Java</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-orange-600 rounded-full" style="width: 65%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 11 Firebase-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-yellow-600">
-              <i class="fas fa-fire"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">Firebase</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-yellow-600 rounded-full" style="width: 55%"></div>
-            </div>
-          </div>
-
-          <!-- Skill Card 12 AI-->
-          <div class="skill-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <div class="text-4xl text-center mb-4 text-red-500">
-              <i class="fas fa-robot"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-center">AI & ML</h3>
-            <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-              <div class="h-full bg-red-500 rounded-full" style="width: 50%"></div>
-            </div>
-          </div>
-        <!-- Add more skills following the same pattern -->
         </div>
       </div>
     </section>

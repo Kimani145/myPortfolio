@@ -1,76 +1,203 @@
+import '../styles/hero.css';
+
+/**
+ * Build Graph SVG data
+ * Center: JKN
+ * Projects: Roomie Finder, GlowBook, YSC, Fitness Tracker Pro, This Portfolio
+ * Infra: React, Firestore, Supabase, Django/DRF, Firebase
+ * Edge key: solid = currently used, dashed = planned/target
+ */
+
+const GRAPH = {
+  // SVG viewBox: 0 0 480 320
+  center: { x: 240, y: 160, label: 'JKN', r: 32 },
+
+  projectNodes: [
+    { id: 'roomie',    x: 100, y: 64,  label: 'Roomie\nFinder', r: 34 },
+    { id: 'glowbook',  x: 380, y: 64,  label: 'GlowBook',       r: 30 },
+    { id: 'ysc',       x: 420, y: 200, label: 'YSC',            r: 28 },
+    { id: 'fitness',   x: 340, y: 286, label: 'Fitness\nTracker', r: 30 },
+    { id: 'portfolio', x: 130, y: 276, label: 'Portfolio',       r: 30 },
+  ],
+
+  infraNodes: [
+    { id: 'react',     x: 60,  y: 180, label: 'React',      r: 22 },
+    { id: 'firestore', x: 180, y: 44,  label: 'Firestore',  r: 22 },
+    { id: 'supabase',  x: 440, y: 130, label: 'Supabase',   r: 22 },
+    { id: 'drf',       x: 420, y: 290, label: 'DRF',        r: 20 },
+    { id: 'firebase',  x: 280, y: 300, label: 'Firebase',   r: 22 },
+  ],
+
+  // [from_id, to_id, 'solid'|'dashed', animated_delay_ms]
+  edges: [
+    // Project ↔ Center
+    ['center', 'roomie',    'solid',  0],
+    ['center', 'glowbook',  'solid',  100],
+    ['center', 'ysc',       'solid',  200],
+    ['center', 'fitness',   'solid',  300],
+    ['center', 'portfolio', 'solid',  400],
+
+    // Infra ↔ Projects (solid = in use, dashed = planned)
+    ['roomie',    'firestore', 'solid',  500],   // Roomie → Firestore (in use)
+    ['glowbook',  'firestore', 'dashed', 600],   // GlowBook → Firestore (planned migration)
+    ['roomie',    'react',     'solid',  550],   // Roomie → React
+    ['portfolio', 'react',     'solid',  450],   // Portfolio → React
+    ['ysc',       'supabase',  'solid',  700],   // YSC → Supabase
+    ['ysc',       'drf',       'solid',  750],   // YSC → Django/DRF
+    ['fitness',   'firebase',  'solid',  800],   // Fitness → Firebase
+  ]
+};
+
+function getNodeById(id) {
+  if (id === 'center') return GRAPH.center;
+  return (
+    GRAPH.projectNodes.find(n => n.id === id) ||
+    GRAPH.infraNodes.find(n => n.id === id)
+  );
+}
+
+function renderEdge(fromId, toId, style, delay) {
+  const a = getNodeById(fromId);
+  const b = getNodeById(toId);
+  if (!a || !b) return '';
+  const classes = `graph-edge ${style} animated`;
+  const dashAttr = style === 'dashed' ? 'stroke-dasharray="5 4"' : '';
+  return `<line
+    class="${classes}"
+    x1="${a.x}" y1="${a.y}"
+    x2="${b.x}" y2="${b.y}"
+    ${dashAttr}
+    style="animation-delay:${delay}ms"
+  />`;
+}
+
+function renderProjectNode(n) {
+  const lines = n.label.split('\n');
+  const lineHeight = 13;
+  const totalH = lines.length * lineHeight;
+  const startY = n.y - totalH / 2 + lineHeight / 2;
+
+  return `
+    <g class="graph-project-node" role="img" aria-label="${n.label.replace('\n', ' ')}">
+      <circle class="graph-node-circle project" cx="${n.x}" cy="${n.y}" r="${n.r}"/>
+      ${lines.map((line, i) =>
+        `<text class="graph-label" x="${n.x}" y="${startY + i * lineHeight}">${line}</text>`
+      ).join('')}
+    </g>
+  `;
+}
+
+function renderInfraNode(n) {
+  return `
+    <g class="graph-infra-node" role="img" aria-label="${n.label} — infrastructure">
+      <circle class="graph-node-circle infra" cx="${n.x}" cy="${n.y}" r="${n.r}"/>
+      <text class="graph-label infra" x="${n.x}" y="${n.y}">${n.label}</text>
+    </g>
+  `;
+}
+
+function renderGraph() {
+  const edgesSVG = GRAPH.edges.map(([a, b, style, delay]) =>
+    renderEdge(a, b, style, delay)
+  ).join('');
+
+  const infraSVG = GRAPH.infraNodes.map(renderInfraNode).join('');
+  const projectSVG = GRAPH.projectNodes.map(renderProjectNode).join('');
+
+  const c = GRAPH.center;
+
+  return `
+    <svg
+      class="build-graph__svg"
+      viewBox="0 0 480 320"
+      role="img"
+      aria-label="Build graph showing Joseph Kimani Nyoike's projects and their tech stack connections"
+    >
+      <defs>
+        <filter id="node-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Edges (drawn first, below nodes) -->
+      ${edgesSVG}
+
+      <!-- Infrastructure nodes -->
+      ${infraSVG}
+
+      <!-- Project nodes -->
+      ${projectSVG}
+
+      <!-- Center JKN node -->
+      <g class="graph-center-node" role="img" aria-label="JKN — Joseph Kimani Nyoike">
+        <circle class="graph-node-circle center" cx="${c.x}" cy="${c.y}" r="${c.r}" filter="url(#node-glow)"/>
+        <text class="graph-label center" x="${c.x}" y="${c.y}">${c.label}</text>
+      </g>
+    </svg>
+  `;
+}
+
+function renderTerminal() {
+  return `
+    <div class="terminal" role="region" aria-label="Terminal status readout" aria-live="polite">
+      <div class="terminal__chrome" aria-hidden="true">
+        <span class="terminal__dot terminal__dot--close"></span>
+        <span class="terminal__dot terminal__dot--min"></span>
+        <span class="terminal__dot terminal__dot--max"></span>
+        <span class="terminal__title">jkn@portfolio ~ zsh</span>
+      </div>
+      <div class="terminal__body">
+        <div class="terminal__cmd-line" id="term-cmd" aria-label="Terminal command"></div>
+        <div class="terminal__res-line" id="term-res" aria-label="Terminal response"><span class="terminal__cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+  `;
+}
+
 export function Hero() {
   return `
-    <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden bg-[#0b1220] text-gray-100">
-      <div class="text-center max-w-4xl px-4 relative z-10">
-        <!-- Greeting + short bio placeholder -->
-        <div class="mb-6 text-center">
-          <p class="text-sm text-gray-400 uppercase tracking-wider">Hello, I’m</p>
-          <h1 id="hero-name" class="text-4xl md:text-6xl font-extrabold mb-2">
-            <span class="bg-gradient-to-r from-[#7c4dff] to-[#00d4ff] bg-clip-text text-transparent">Joseph Kimani</span>
+    <section id="hero" class="hero" aria-labelledby="hero-name">
+      <div class="hero__inner">
+
+        <!-- Left: Name + Bio + CTAs -->
+        <div class="hero__left">
+          <p class="hero__greeting" aria-hidden="true">$ whoami</p>
+
+          <h1 class="hero__name" id="hero-name">
+            <span class="hero__name-first">Joseph Kimani</span>
+            <span class="hero__name-last">Nyoike</span>
           </h1>
-          <p class="text-lg text-gray-300 max-w-2xl mx-auto">
-            I design and build web applications with clean UI and thoughtful UX. I enjoy tackling back-end challenges and turning ideas into polished products.
+
+          <p class="hero__positioning">
+            I design the schema, build the system, and ship it to production — then debug it live.
           </p>
-        </div>
-  <!-- Animated quote area -->
-  <p id="hero-quote" class="text-lg md:text-xl italic mb-6 opacity-100 text-gray-300" aria-live="polite" aria-atomic="true"></p>
 
-        <!-- CTAs -->
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="#projects" id="cta-projects" class="px-6 py-3 bg-gradient-to-r from-[#7c4dff] to-[#00d4ff] rounded-full shadow-md hover:shadow-lg transition">
-            View My Work
-          </a>
-          <a href="#contact" class="px-6 py-3 border border-[#7c4dff]/60 text-[#c8b8ff] rounded-full hover:bg-white/5 transition">
-            Contact Me
-          </a>
+          <div class="hero__ctas">
+            <a href="#projects" id="cta-work" class="btn-primary">View Work ↓</a>
+            <a href="#contact" class="btn-ghost">Contact</a>
+          </div>
         </div>
 
-        <!-- Scroll invite (keyboard focusable) -->
-        <button id="scroll-invite" class="mt-12 inline-flex flex-col items-center gap-2 bg-transparent border-none cursor-pointer focus:outline-none" aria-label="Scroll to projects">
-          <svg class="w-9 h-14" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-            <rect x="3" y="2" width="18" height="28" rx="9" stroke="#3b3250" stroke-width="1.5" fill="transparent"/>
-            <circle id="mouse-dot" cx="12" cy="10" r="2.5" fill="#bfa6ff"></circle>
-          </svg>
-          <span id="scroll-text" class="text-sm text-gray-400">Explore ↓</span>
-        </button>
-
-        <!-- Projects preview tooltip -->
-        <div id="preview-card" class="hidden pointer-events-none absolute z-50 w-80 max-w-[85vw] rounded-lg shadow-2xl bg-[#0f1724] text-gray-200 p-4 transform -translate-x-1/2 ring-1 ring-white/5">
-          <strong id="preview-title" class="block mb-1">Project title</strong>
-          <p id="preview-desc" class="text-sm text-gray-400 mb-3">Short project description or quick stat.</p>
-          <a id="preview-link" href="#projects" class="text-xs font-medium text-[#7c4dff] underline">Open projects</a>
+        <!-- Right: Build Graph + Terminal -->
+        <div class="hero__right">
+          <div class="build-graph" aria-label="Interactive project dependency graph">
+            ${renderGraph()}
+            <div class="graph-legend" aria-label="Graph legend">
+              <span class="graph-legend__item">
+                <span class="graph-legend__line solid"></span>
+                Currently in use
+              </span>
+              <span class="graph-legend__item">
+                <span class="graph-legend__line dashed"></span>
+                Planned migration
+              </span>
+            </div>
+          </div>
+          ${renderTerminal()}
         </div>
+
       </div>
-
-      <!-- Local styles (keep) -->
-      <style>
-        /* subtle blob motion fallback for reduced-motion */
-        #mouse-dot { animation: mouseDot 1.6s ease-in-out infinite; transform-origin:center; }
-        @keyframes mouseDot { 0% { transform: translateY(0); opacity: 1 } 50% { transform: translateY(8px); opacity: .6 } 100% { transform: translateY(0); opacity: 1 } }
-
-        /* typing caret */
-        .typing-caret::after {
-          content: '';
-          display: inline-block;
-          width: 2px;
-          height: 1.05em;
-          background: #bfa6ff;
-          margin-left: 6px;
-          animation: caret 1s steps(1) infinite;
-          vertical-align: text-bottom;
-        }
-        @keyframes caret { 50% { opacity: 0 } }
-
-        /* preview card show */
-        #preview-card { transition: transform 180ms cubic-bezier(.2,.9,.3,1), opacity 180ms ease; opacity: 0; }
-        #preview-card.show { opacity: 1; pointer-events: auto; transform: translateY(2px); }
-
-        @media (prefers-reduced-motion: reduce) {
-          #mouse-dot, .typing-caret::after { animation: none !important; }
-        }
-      </style>
-
-      <!-- Behavior moved to a separate module (hero.client.js) -->
     </section>
   `;
 }

@@ -1,0 +1,296 @@
+/* ============================================================
+   PROJECTS STATUS BOARD — v2
+   ============================================================ */
+.projects {
+  background: var(--bg);
+}
+
+/* Section header row */
+.projects__header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--sp-6);
+}
+
+.projects__subtitle {
+  font-size: 1rem;
+  color: var(--ink);
+  opacity: 0.6;
+  max-width: 560px;
+  margin-top: 8px;
+}
+
+/* ---- FLAGSHIP CARD (Roomie Finder) ---- */
+.project-flagship {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  overflow: hidden;
+  margin-bottom: var(--sp-4);
+  transition: border-color 0.2s;
+}
+
+.project-flagship:hover {
+  border-color: var(--border-strong);
+}
+
+.project-flagship__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+@media (max-width: 768px) {
+  .project-flagship__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-flagship__meta {
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.project-flagship__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.project-flagship__title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+
+.project-flagship__desc {
+  font-size: 0.95rem;
+  color: var(--ink);
+  opacity: 0.7;
+  line-height: 1.65;
+}
+
+/* Case study callout */
+.case-study-block {
+  border-left: 3px solid var(--accent);
+  padding: var(--sp-2) var(--sp-3);
+  background: rgba(45,91,255,0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+[data-theme="dark"] .case-study-block {
+  background: rgba(110,147,255,0.06);
+}
+
+.case-study-block__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.case-study-block__text {
+  font-size: 0.875rem;
+  color: var(--ink);
+  opacity: 0.75;
+  line-height: 1.65;
+}
+
+.case-study-block__text strong {
+  opacity: 1;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.project-flagship__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.project-flagship__actions {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.project-flagship__visual {
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: var(--sp-4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ASCII/system art for visual placeholder */
+.project-visual-art {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent);
+  opacity: 0.4;
+  line-height: 1.4;
+  user-select: none;
+  white-space: pre;
+}
+
+.project-flagship__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+  .project-flagship__visual {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    min-height: 200px;
+  }
+}
+
+/* ---- SECONDARY CARDS grid (build notes) ---- */
+.projects__secondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+/* When only one build note exists, don't split into two columns */
+.projects__secondary--single {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+}
+
+@media (max-width: 600px) {
+  .projects__secondary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-build-note {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  transition: border-color 0.2s;
+}
+
+.project-build-note:hover {
+  border-color: var(--border-strong);
+}
+
+.project-build-note__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.project-build-note__title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.project-build-note__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.4;
+}
+
+.project-build-note__text {
+  font-size: 0.875rem;
+  color: var(--ink);
+  opacity: 0.7;
+  line-height: 1.65;
+  flex: 1;
+}
+
+.project-build-note__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ---- STANDARD CARDS ---- */
+.projects__standard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-3);
+}
+
+.project-standard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  padding: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.project-standard:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+
+.project-standard__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.project-standard__title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.project-standard__desc {
+  font-size: 0.875rem;
+  color: var(--ink);
+  opacity: 0.65;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.project-standard__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.project-standard__link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  transition: opacity 0.2s;
+}
+.project-standard__link:hover { opacity: 0.75; }
