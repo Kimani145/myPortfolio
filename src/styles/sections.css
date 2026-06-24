@@ -265,19 +265,18 @@
   font-size: 0.75rem;
   padding: 10px 14px;
   border-radius: var(--radius);
-  border: 1px solid;
-  display: none;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
 }
 
 .form-status.success {
-  display: block;
   border-color: rgba(31,157,85,0.25);
   background: rgba(31,157,85,0.08);
   color: var(--status-live);
 }
 
 .form-status.error {
-  display: block;
   border-color: rgba(220,38,38,0.25);
   background: rgba(220,38,38,0.06);
   color: #DC2626;

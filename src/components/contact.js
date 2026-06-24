@@ -107,7 +107,7 @@ export function Contact() {
                 Send Message
               </button>
 
-              <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+              <div id="form-status" class="form-status hidden" role="status" aria-live="polite"></div>
             </form>
           </div>
 

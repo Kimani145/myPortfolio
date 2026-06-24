@@ -76,26 +76,26 @@ function renderTechTag(t) {
 function renderFlagshipCard(f) {
   const artLines = {
     'roomie-finder': `┌─────────────────────┐
-│  ROOMIE FINDER      │
-│  LIVE MVP · TUK     │
+│  <span class="diagram-label">ROOMIE FINDER</span>      │
+│  <span class="diagram-accent">LIVE MVP · TUK</span>     │
 ├─────────────────────┤
-│ [Auth] → [Profile]  │
+│ <span class="diagram-accent">[Auth]</span> → <span class="diagram-accent">[Profile]</span>  │
 │    ↓                │
-│ [Discovery Feed]    │
+│ <span class="diagram-accent">[Discovery Feed]</span>    │
 │    ↓                │
-│ [Match / Message]   │
+│ <span class="diagram-accent">[Match / Message]</span>   │
 ├─────────────────────┤
 │ Firestore · React   │
 └─────────────────────┘`,
     'knot-just-braids': `┌─────────────────────┐
-│  KNOT JUST BRAIDS   │
-│  LIVE · PRODUCTION  │
+│  <span class="diagram-label">KNOT JUST BRAIDS</span>   │
+│  <span class="diagram-accent">LIVE · PRODUCTION</span>  │
 ├─────────────────────┤
-│ [Browse Styles]     │
+│ <span class="diagram-accent">[Browse Styles]</span>     │
 │    ↓                │
-│ [Book / Cart]       │
+│ <span class="diagram-accent">[Book / Cart]</span>       │
 │    ↓                │
-│ [Order State]       │
+│ <span class="diagram-accent">[Order State]</span>       │
 ├─────────────────────┤
 │ Firebase · React    │
 └─────────────────────┘`
@@ -131,7 +131,7 @@ function renderFlagshipCard(f) {
         </div>
 
         <div class="project-flagship__visual" aria-hidden="true">
-          <pre class="project-visual-art">${art}</pre>
+          <pre class="case-study-diagram project-visual-art">${art}</pre>
         </div>
       </div>
     </article>

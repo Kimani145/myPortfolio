@@ -12,6 +12,7 @@
   --status-archived:  #6B7280;
   --status-concept:   #7C3AED;
   --console-bg:       #0B0F14;
+  --accent-dark:      #6E93FF;
   --border:           rgba(16, 22, 29, 0.08);
   --border-strong:    rgba(16, 22, 29, 0.16);
   --radius:           6px;
@@ -275,3 +276,11 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .fade-up { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.hidden {
+  display: none !important;
+}
+

@@ -11,6 +11,7 @@ import { Projects }       from './components/projects.js';
 import { Certifications } from './components/certifications.js';
 import { Contact }        from './components/contact.js';
 import { Footer }         from './components/footer.js';
+import { sendEmailDual }  from './utils/emailService.js';
 
 import './styles/global.css';
 
@@ -58,60 +59,50 @@ function initTheme() {
 function initEmailJS() {
   if (window.emailjs) {
     window.emailjs.init('IsT5U0mRNPdYjZ3hL');
+  } else {
+    console.error('[EmailJS] SDK not loaded — check index.html script tag order');
   }
 }
 
 // ─── 4. Contact Form (single listener — fixes double-submit) ─
-function setupContactForm() {
-  const form      = document.getElementById('contact-form');
-  const statusEl  = document.getElementById('form-status');
-  const submitBtn = document.getElementById('form-submit-btn');
+const setupContactForm = () => {
+  const form = document.getElementById('contact-form');
+  const statusEl = document.getElementById('form-status');
   if (!form) return;
 
-  let sending = false;  // guard against double-submit
+  let sending = false;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (sending) return;
+    if (sending) return;              // guard against double-fire
     sending = true;
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
-    }
+    const btn = form.querySelector('[type="submit"]');
+    if (btn) btn.disabled = true;
 
-    if (statusEl) {
-      statusEl.className = 'form-status';
-      statusEl.textContent = '';
-    }
+    statusEl?.classList.remove('hidden');
+    statusEl?.classList.remove('success', 'error');
+    if (statusEl) statusEl.textContent = 'Sending…';
 
     try {
-      await window.emailjs.sendForm(
-        'service_20mgute',
-        'template_faun4li',
-        form
-      );
-
+      await sendEmailDual(form);
       if (statusEl) {
-        statusEl.textContent = '✓ Message sent! I\'ll get back to you shortly.';
-        statusEl.className   = 'form-status success';
+        statusEl.textContent = 'Message sent.';
+        statusEl.classList.add('success');
       }
       form.reset();
     } catch (err) {
-      console.error('[contact form]', err);
+      console.error('[EmailJS] send error:', err);
       if (statusEl) {
-        statusEl.textContent = 'Failed to send. Please email me directly at kimnyoski145@gmail.com';
-        statusEl.className   = 'form-status error';
+        statusEl.textContent = `Failed to send — ${err?.text ?? err?.message ?? 'unknown error'}. Try emailing kimnyoski145@gmail.com directly.`;
+        statusEl.classList.add('error');
       }
     } finally {
       sending = false;
-      if (submitBtn) {
-        submitBtn.disabled    = false;
-        submitBtn.textContent = 'Send Message';
-      }
+      if (btn) btn.disabled = false;
     }
   });
-}
+};
 
 // ─── 5. Intersection Observer — fade-up ──────────────────────
 function initScrollAnimations() {
