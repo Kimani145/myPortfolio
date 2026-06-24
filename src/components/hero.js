@@ -1,59 +1,84 @@
 import '../styles/hero.css';
 
 /**
- * Build Graph SVG data
- * Center: JKN
- * Projects: Roomie Finder, GlowBook, YSC, Fitness Tracker Pro, This Portfolio
- * Infra: React, Firestore, Supabase, Django/DRF, Firebase
- * Edge key: solid = currently used, dashed = planned/target
+ * Graph data representation for the personal operating system.
+ * Three categories of nodes:
+ * 1. Identity (intellectual background and disciplines)
+ * 2. Projects (systems built)
+ * 3. Technologies (tools and frameworks used)
  */
-
 const GRAPH = {
-  // SVG viewBox: 0 0 480 320
-  center: { x: 240, y: 160, label: 'JKN', r: 32 },
+  center: { id: 'center', x: 280, y: 200, label: 'JKN', r: 32, category: 'center' },
 
-  projectNodes: [
-    { id: 'roomie',    x: 100, y: 64,  label: 'Roomie\nFinder', r: 34 },
-    { id: 'glowbook',  x: 380, y: 64,  label: 'GlowBook',       r: 30 },
-    { id: 'ysc',       x: 420, y: 200, label: 'YSC',            r: 28 },
-    { id: 'fitness',   x: 340, y: 286, label: 'Fitness\nTracker', r: 30 },
-    { id: 'portfolio', x: 130, y: 276, label: 'Portfolio',       r: 30 },
+  nodes: [
+    // 1. Identity Category (Academic / Intellectual Framework)
+    { id: 'infosc',    x: 325, y: 122, label: 'Info\nScience',     r: 28, category: 'identity' },
+    { id: 'datasys',   x: 325, y: 278, label: 'Data\nSystems',     r: 28, category: 'identity' },
+    { id: 'records',   x: 235, y: 278, label: 'Records\nMgmt',      r: 28, category: 'identity' },
+    { id: 'prompt',    x: 190, y: 200, label: 'Prompt\nEng',       r: 28, category: 'identity' },
+    { id: 'ai',        x: 370, y: 200, label: 'Artificial\nIntel', r: 28, category: 'identity' },
+    { id: 'softeng',   x: 235, y: 122, label: 'Software\nEng',     r: 28, category: 'identity' },
+
+    // 2. Projects Category (What I build)
+    { id: 'roomie',    x: 100, y: 80,  label: 'Roomie\nFinder',    r: 34, category: 'project' },
+    { id: 'glowbook',  x: 460, y: 80,  label: 'GlowBook',          r: 30, category: 'project' },
+    { id: 'ysc',       x: 460, y: 320, label: 'YSC',               r: 28, category: 'project' },
+    { id: 'fitness',   x: 280, y: 355, label: 'Fitness\nTracker',  r: 30, category: 'project' },
+    { id: 'portfolio', x: 100, y: 320, label: 'Portfolio',         r: 30, category: 'project' },
+
+    // 3. Technologies Category (Tools I use)
+    { id: 'react',     x: 50,  y: 200, label: 'React',             r: 22, category: 'technology' },
+    { id: 'firestore', x: 200, y: 50,  label: 'Firestore',         r: 22, category: 'technology' },
+    { id: 'supabase',  x: 510, y: 200, label: 'Supabase',          r: 22, category: 'technology' },
+    { id: 'drf',       x: 410, y: 340, label: 'DRF',               r: 20, category: 'technology' },
+    { id: 'firebase',  x: 200, y: 350, label: 'Firebase',          r: 22, category: 'technology' }
   ],
 
-  infraNodes: [
-    { id: 'react',     x: 60,  y: 180, label: 'React',      r: 22 },
-    { id: 'firestore', x: 180, y: 44,  label: 'Firestore',  r: 22 },
-    { id: 'supabase',  x: 440, y: 130, label: 'Supabase',   r: 22 },
-    { id: 'drf',       x: 420, y: 290, label: 'DRF',        r: 20 },
-    { id: 'firebase',  x: 280, y: 300, label: 'Firebase',   r: 22 },
-  ],
-
-  // [from_id, to_id, 'solid'|'dashed', animated_delay_ms]
   edges: [
-    // Project ↔ Center
-    ['center', 'roomie',    'solid',  0],
-    ['center', 'glowbook',  'solid',  100],
-    ['center', 'ysc',       'solid',  200],
-    ['center', 'fitness',   'solid',  300],
-    ['center', 'portfolio', 'solid',  400],
+    // Center (JKN) ↔ Identity
+    ['center', 'softeng',   'solid',  0],
+    ['center', 'infosc',    'solid',  50],
+    ['center', 'prompt',    'solid',  100],
+    ['center', 'datasys',   'solid',  150],
+    ['center', 'records',   'solid',  200],
+    ['center', 'ai',        'solid',  250],
 
-    // Infra ↔ Projects (solid = in use, dashed = planned)
-    ['roomie',    'firestore', 'solid',  500],   // Roomie → Firestore (in use)
-    ['glowbook',  'firestore', 'dashed', 600],   // GlowBook → Firestore (planned migration)
-    ['roomie',    'react',     'solid',  550],   // Roomie → React
-    ['portfolio', 'react',     'solid',  450],   // Portfolio → React
-    ['ysc',       'supabase',  'solid',  700],   // YSC → Supabase
-    ['ysc',       'drf',       'solid',  750],   // YSC → Django/DRF
-    ['fitness',   'firebase',  'solid',  800],   // Fitness → Firebase
+    // Identity ↔ Projects
+    ['softeng',   'roomie',    'solid',  300],
+    ['softeng',   'glowbook',  'solid',  320],
+    ['softeng',   'ysc',       'solid',  340],
+    ['softeng',   'fitness',   'solid',  360],
+    ['softeng',   'portfolio', 'solid',  380],
+
+    ['infosc',    'roomie',    'solid',  400],
+    ['infosc',    'portfolio', 'solid',  420],
+
+    ['prompt',    'roomie',    'solid',  440],
+    ['prompt',    'glowbook',  'dashed', 460],
+
+    ['datasys',   'roomie',    'solid',  480],
+    ['datasys',   'ysc',       'solid',  500],
+
+    ['records',   'glowbook',  'solid',  520],
+    ['records',   'ysc',       'solid',  540],
+
+    ['ai',        'roomie',    'dashed', 560],
+    ['ai',        'glowbook',  'dashed', 580],
+
+    // Projects ↔ Technologies
+    ['roomie',    'firestore', 'solid',  600],
+    ['roomie',    'react',     'solid',  620],
+    ['glowbook',  'firestore', 'dashed', 640],
+    ['ysc',       'supabase',  'solid',  660],
+    ['ysc',       'drf',       'solid',  680],
+    ['fitness',   'firebase',  'solid',  700],
+    ['portfolio', 'react',     'solid',  720]
   ]
 };
 
 function getNodeById(id) {
   if (id === 'center') return GRAPH.center;
-  return (
-    GRAPH.projectNodes.find(n => n.id === id) ||
-    GRAPH.infraNodes.find(n => n.id === id)
-  );
+  return GRAPH.nodes.find(n => n.id === id);
 }
 
 function renderEdge(fromId, toId, style, delay) {
@@ -64,6 +89,8 @@ function renderEdge(fromId, toId, style, delay) {
   const dashAttr = style === 'dashed' ? 'stroke-dasharray="5 4"' : '';
   return `<line
     class="${classes}"
+    data-from="${fromId}"
+    data-to="${toId}"
     x1="${a.x}" y1="${a.y}"
     x2="${b.x}" y2="${b.y}"
     ${dashAttr}
@@ -71,27 +98,22 @@ function renderEdge(fromId, toId, style, delay) {
   />`;
 }
 
-function renderProjectNode(n) {
+function renderNode(n) {
   const lines = n.label.split('\n');
-  const lineHeight = 13;
+  const lineHeight = 11;
   const totalH = lines.length * lineHeight;
   const startY = n.y - totalH / 2 + lineHeight / 2;
 
-  return `
-    <g class="graph-project-node" role="img" aria-label="${n.label.replace('\n', ' ')}">
-      <circle class="graph-node-circle project" cx="${n.x}" cy="${n.y}" r="${n.r}"/>
-      ${lines.map((line, i) =>
-        `<text class="graph-label" x="${n.x}" y="${startY + i * lineHeight}">${line}</text>`
-      ).join('')}
-    </g>
-  `;
-}
+  const isCenter = n.id === 'center';
+  const circleClass = `graph-node-circle ${n.category}`;
+  const labelClass = `graph-label ${n.category}`;
 
-function renderInfraNode(n) {
   return `
-    <g class="graph-infra-node" role="img" aria-label="${n.label} — infrastructure">
-      <circle class="graph-node-circle infra" cx="${n.x}" cy="${n.y}" r="${n.r}"/>
-      <text class="graph-label infra" x="${n.x}" y="${n.y}">${n.label}</text>
+    <g class="graph-node ${n.category}" data-node-id="${n.id}" role="img" aria-label="${n.label.replace('\n', ' ')}">
+      <circle class="${circleClass}" cx="${n.x}" cy="${n.y}" r="${n.r}" ${isCenter ? 'filter="url(#node-glow)"' : ''}/>
+      ${lines.map((line, i) =>
+        `<text class="${labelClass}" x="${n.x}" y="${startY + i * lineHeight}">${line}</text>`
+      ).join('')}
     </g>
   `;
 }
@@ -101,17 +123,15 @@ function renderGraph() {
     renderEdge(a, b, style, delay)
   ).join('');
 
-  const infraSVG = GRAPH.infraNodes.map(renderInfraNode).join('');
-  const projectSVG = GRAPH.projectNodes.map(renderProjectNode).join('');
-
-  const c = GRAPH.center;
+  const allNodes = [GRAPH.center, ...GRAPH.nodes];
+  const nodesSVG = allNodes.map(renderNode).join('');
 
   return `
     <svg
       class="build-graph__svg"
-      viewBox="0 0 480 320"
+      viewBox="0 0 560 400"
       role="img"
-      aria-label="Build graph showing Joseph Kimani Nyoike's projects and their tech stack connections"
+      aria-label="Build graph showing Joseph Kimani Nyoike's disciplines, projects, and tech stacks"
     >
       <defs>
         <filter id="node-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -123,17 +143,8 @@ function renderGraph() {
       <!-- Edges (drawn first, below nodes) -->
       ${edgesSVG}
 
-      <!-- Infrastructure nodes -->
-      ${infraSVG}
-
-      <!-- Project nodes -->
-      ${projectSVG}
-
-      <!-- Center JKN node -->
-      <g class="graph-center-node" role="img" aria-label="JKN — Joseph Kimani Nyoike">
-        <circle class="graph-node-circle center" cx="${c.x}" cy="${c.y}" r="${c.r}" filter="url(#node-glow)"/>
-        <text class="graph-label center" x="${c.x}" y="${c.y}">${c.label}</text>
-      </g>
+      <!-- All nodes -->
+      ${nodesSVG}
     </svg>
   `;
 }
@@ -181,17 +192,33 @@ export function Hero() {
 
         <!-- Right: Build Graph + Terminal -->
         <div class="hero__right">
-          <div class="build-graph" aria-label="Interactive project dependency graph">
+          <div class="build-graph" aria-label="Interactive project dependency graph" id="graph-container">
             ${renderGraph()}
             <div class="graph-legend" aria-label="Graph legend">
-              <span class="graph-legend__item">
-                <span class="graph-legend__line solid"></span>
-                Currently in use
-              </span>
-              <span class="graph-legend__item">
-                <span class="graph-legend__line dashed"></span>
-                Planned migration
-              </span>
+              <div class="graph-legend__row">
+                <span class="graph-legend__item">
+                  <span class="graph-legend__indicator identity"></span>
+                  Identity
+                </span>
+                <span class="graph-legend__item">
+                  <span class="graph-legend__indicator project"></span>
+                  Projects
+                </span>
+                <span class="graph-legend__item">
+                  <span class="graph-legend__indicator technology"></span>
+                  Technologies
+                </span>
+              </div>
+              <div class="graph-legend__row" style="margin-top: 6px;">
+                <span class="graph-legend__item">
+                  <span class="graph-legend__line solid"></span>
+                  Active Connection
+                </span>
+                <span class="graph-legend__item">
+                  <span class="graph-legend__line dashed"></span>
+                  Planned Connection
+                </span>
+              </div>
             </div>
           </div>
           ${renderTerminal()}
